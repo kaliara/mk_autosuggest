@@ -29,17 +29,14 @@
       
       <section>
         <h3>Overview</h3>
-
-
-
+        <p>This is a custom-written autosuggest jQuery plugin</p>
 
         <h3>Demo</h3>
-
         <div id="demo1" class="demo clearfix">
           <form class="search_form" method="get">
              <label for="query">What</label> 
              <input type="search" name="what" id="query" autocomplete="off" tabindex="1" maxlength="128" />
-             <input type="submit" name="search" value="search" id="search" />
+             <input type="submit" name="search" value="search" id="search" tabindex="2" />
           </form>
 
           <div id="autosuggest_what" class="autosuggest_results" style="display: none">
@@ -52,7 +49,7 @@
           </div>
         </div>
 
-
+        <h3>Usage</h3>
         <pre><code>$("#query").mkAutosuggest({ 
   api_url: 'results.js', // local sample source 
   next_input_element: "#search",

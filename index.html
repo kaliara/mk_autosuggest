@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    
     <title>mk_autosuggest by kaliara</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="stylesheets/github_pages.css">
+    <link rel="stylesheet" href="stylesheets/autosuggest.css" type="text/css" media="screen" charset="utf-8" />
+    
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -26,18 +28,44 @@
       </header>
       
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h3>Overview</h3>
 
-        <p>This automatic page generator is the easiest way to create beautiful pages for all of your projects.</p>
 
-        <pre><code>$ cd your_repo_root/repo_name
-        $ git fetch origin
-        $ git checkout gh-pages
-        </code></pre>
 
-        <h3>Support or Contact</h3>
 
-        <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        <h3>Demo</h3>
+
+        <div id="demo1" class="demo clearfix">
+          <form class="search_form" method="get">
+             <label for="query">What</label> 
+             <input type="search" name="what" id="query" autocomplete="off" tabindex="1" maxlength="128" />
+             <input type="submit" name="search" value="search" id="search" />
+          </form>
+
+          <div id="autosuggest_what" class="autosuggest_results" style="display: none">
+              <div class="clearfix">
+                  <h3 id="as_category_header">Categories</h3>
+                  <h3 id="as_entity_header">Businesses</h3>
+              </div>    
+              <div id="as_what_results" class="clearfix">
+              </div>
+          </div>
+        </div>
+
+
+        <pre><code>$("#query").mkAutosuggest({ 
+  api_url: 'results.js', // local sample source 
+  next_input_element: "#search",
+  result_groups: ["categories", "businesses"],
+  result_group_labels: ["categories", "businesses"]
+});</code></pre>
+
+        <h3>Requirements</h3>
+
+        <ul>
+          <li>jQuery 1.7.2+</li>
+          <li>properly formatted JSON results</li>
+        </ul>
       </section>
 
       <footer>
@@ -46,7 +74,18 @@
       </footer>
 
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="javascripts/autosuggest.js"></script>
     <script src="javascripts/scale.fix.js"></script>
-    
+
+    <script>
+      $("#query").mkAutosuggest({ 
+         api_url: 'results.json', // local sample source 
+         next_input_element: "#search",
+         result_groups: ["categories", "businesses"],
+         result_group_labels: ["categories", "businesses"]
+      });
+    </script>
+
   </body>
 </html>

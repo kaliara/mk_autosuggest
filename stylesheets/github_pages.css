@@ -181,6 +181,10 @@ hr {
   margin:0 0 20px;
 }
 
+label {
+  font-weight: bold;
+}
+
 footer {
   width:270px;
   float:left;

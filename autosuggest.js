@@ -6,7 +6,7 @@ $.fn.extend({
 
 		// setting some defaults (can be overwritten when calling mkAutosuggest)
 		var defaults = {
-		  url = null,
+		  url: null,
 			container_id: "autosuggest_what",
 			element_id: "as_what_results",
 			next_input_element: null,

@@ -29,9 +29,21 @@
       
       <section>
         <h3>Overview</h3>
-        <p>This is a custom-written autosuggest jQuery plugin</p>
-
+        <p>Custom written autosuggestion jQuery plugin includes the following features:</p>
+        <ul>
+          <li>remote source with parameters</li>
+          <li>efficient, in-memory rendering of results</li>
+          <li>multiple result sets</li>
+          <li>multiple search term highlighting</li>
+          <li>aborting unfinished requests</li>
+          <li>simple customization of item rendering for adding attributes, etc</li>
+          <li>keyboard navigation (IE7+, FF, Chrome)</li>
+        </ul>
+        
+        <br><br>
+        
         <h3>Demo</h3>
+        <p>Try typing "pizza" to get a sense of the interaction. Each keystroke sends another request to the location specified by the "url" parameter. This demo uses a static JSON file, so the results will never change.</p>
         <div id="demo1" class="demo clearfix">
           <form class="search_form" method="get">
              <label for="query">What</label> 
@@ -48,17 +60,20 @@
               </div>
           </div>
         </div>
+        
+        <br>
 
         <h3>Usage</h3>
         <pre><code>$("#query").mkAutosuggest({ 
-  api_url: 'results.js', // local sample source 
+  url: '/api/autosuggest', 
   next_input_element: "#search",
   result_groups: ["categories", "businesses"],
   result_group_labels: ["categories", "businesses"]
 });</code></pre>
 
-        <h3>Requirements</h3>
+        <br><br>
 
+        <h3>Requirements</h3>
         <ul>
           <li>jQuery 1.7.2+</li>
           <li>properly formatted JSON results</li>
@@ -72,12 +87,12 @@
 
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="javascripts/autosuggest.js"></script>
+    <script src="https://github.com/kaliara/mk_autosuggest/raw/master/autosuggest.js"></script>
     <script src="javascripts/scale.fix.js"></script>
 
     <script>
       $("#query").mkAutosuggest({ 
-         api_url: 'results.json', // local sample source 
+         api_url: 'results.json', // local sample source for example
          next_input_element: "#search",
          result_groups: ["categories", "businesses"],
          result_group_labels: ["categories", "businesses"]

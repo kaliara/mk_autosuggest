@@ -21,6 +21,7 @@ ul, li{
 .autosuggest_results ul {
   float: left;
   width: 240px;
+  padding: 0;
 }
 .autosuggest_results h3:first-child,
 .autosuggest_results ul:first-child{

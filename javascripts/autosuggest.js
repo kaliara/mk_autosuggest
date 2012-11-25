@@ -133,7 +133,6 @@ $.fn.extend({
 
 			$("li.no_results").slice(1).remove(); // remove all but first 'no results' instance
 
-			checkCategoryMatch();
 		};
 
 		var fetchResults = function(term_what) {
@@ -165,17 +164,7 @@ $.fn.extend({
 
 		var updateInput = function(term) {
 			_input.val(term.attr('data-name'));
-			$("#" + options.category).val(term.attr('data-category'));
 		};
-      
-		var checkCategoryMatch = function() {
-		    var search_regex = new RegExp('^' + $.trim(_input.val()) + '$', 'gi');
-		    $("#as_category_results li a").each(function(){
-		        if($(this).attr('data-name').match(search_regex)) {
-		            $("#" + options.category).val($(this).attr('data-category'));
-		        }
-		    });
-		}
 
 		var mapKeys = function(e) {
 			e = e || window.event;
@@ -217,7 +206,6 @@ $.fn.extend({
 			}
 			// all other keys
 			else if (e.type === "keyup" && key && key !== 16 && (key < 37 || key > 40)) {
-			    checkCategoryMatch();
 				fetchResults(_input.val());
 			} else {
 				return;

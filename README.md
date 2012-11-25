@@ -6,3 +6,5 @@ Custom written autosuggestion jQuery plugin includes the following features:
 *   aborting of unfinished requests
 *   simple customization of item rendering for adding attributes, etc
 *   keyboard navigation (IE7+, FF, Chrome)
+
+View a [demo](http://kaliara.github.com/mk_autosuggest "mk_autosuggest demo")

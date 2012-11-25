@@ -6,6 +6,7 @@ $.fn.extend({
 
 		// setting some defaults (can be overwritten when calling mkAutosuggest)
 		var defaults = {
+		  url = null,
 			container_id: "autosuggest_what",
 			element_id: "as_what_results",
 			next_input_element: null,
@@ -143,7 +144,7 @@ $.fn.extend({
 						current_ajax_req.abort();
 					}
 					current_ajax_req = $.ajax({
-						url: options.api_url,
+						url: options.url,
 						type: "GET",
 						data: { 'term': term },
 						dataType: "json"
@@ -210,6 +211,12 @@ $.fn.extend({
 		};
 
 		var init = function() {
+		  // return false if we don't have a url
+		  if (options.url == null) {
+		    console.log("No url specified");
+		    return false;
+		  }
+		  
 			_input.on("keydown keyup keypress", function(e) {
 				mapKeys(e);
 			});

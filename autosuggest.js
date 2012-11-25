@@ -107,7 +107,7 @@ $.fn.extend({
 					else{
 						item_address = "";
 					}
-					$('<li><a ' + 
+					$('<li><a data-name="' + item.name +  // data-name is required
 						'" data-' + group_label + '="' + item.name + 
 						'" data-position="' + j + 
 						'" href="#' + item.id + '">' + 

@@ -8,7 +8,6 @@ $.fn.extend({
 		var defaults = {
 			container_id: "autosuggest_what",
 			element_id: "as_what_results",
-			category: "what_category",
 			next_input_element: null,
 			focus_class: "focused",
 			no_results: "No matches found",
@@ -108,7 +107,7 @@ $.fn.extend({
 					else{
 						item_address = "";
 					}
-					$('<li><a data-name="' + item.name + 
+					$('<li><a ' + 
 						'" data-' + group_label + '="' + item.name + 
 						'" data-position="' + j + 
 						'" href="#' + item.id + '">' + 
@@ -130,18 +129,14 @@ $.fn.extend({
 				$("#" + options.element_id).replaceWith(results_html);
 				showContainer();
 			}
-
-			$("li.no_results").slice(1).remove(); // remove all but first 'no results' instance
-
-			checkCategoryMatch();
 		};
 
-		var fetchResults = function(term_what) {
-      var cacheKey = term_what;
+		var fetchResults = function(term) {
+		  var cacheKey = term;
       
-			if ($.trim(term_what).length > 2) {
+			if ($.trim(term).length > 2) {
 				if(cacheKey in cacheApiResult) {
-				    displayResults( cacheApiResult [ cacheKey ]);
+				    displayResults(cacheApiResult [ cacheKey ]);
 				}
 				else {
 					if (current_ajax_req) {
@@ -150,6 +145,7 @@ $.fn.extend({
 					current_ajax_req = $.ajax({
 						url: options.api_url,
 						type: "GET",
+						data: { 'term': term },
 						dataType: "json"
 					}).done(function(data) {
 						cacheApiResult[ cacheKey ] = data;
@@ -165,18 +161,8 @@ $.fn.extend({
 
 		var updateInput = function(term) {
 			_input.val(term.attr('data-name'));
-			$("#" + options.category).val(term.attr('data-category'));
 		};
       
-		var checkCategoryMatch = function() {
-		    var search_regex = new RegExp('^' + $.trim(_input.val()) + '$', 'gi');
-		    $("#as_category_results li a").each(function(){
-		        if($(this).attr('data-name').match(search_regex)) {
-		            $("#" + options.category).val($(this).attr('data-category'));
-		        }
-		    });
-		}
-
 		var mapKeys = function(e) {
 			e = e || window.event;
 
@@ -217,7 +203,6 @@ $.fn.extend({
 			}
 			// all other keys
 			else if (e.type === "keyup" && key && key !== 16 && (key < 37 || key > 40)) {
-			    checkCategoryMatch();
 				fetchResults(_input.val());
 			} else {
 				return;
@@ -242,6 +227,14 @@ $.fn.extend({
 				focusItem($(this));
 			});
 
+			// update on item click
+			$("#" + options.container_id).on("click", "a", function(e) {
+				e.preventDefault();
+				updateInput($(this));
+				hideContainer();
+				_input.focus();
+			});
+
 			// hide results and update input if necessary on click
 			$(document).on("click", function() {
 				if (!_input.is(':focus')) {
@@ -249,13 +242,6 @@ $.fn.extend({
 				}
 			});
 
-			// 
-			$("#" + options.container_id).on("click", "a", function(e) {
-				e.preventDefault();
-				updateInput($(this));
-				hideContainer();
-				_input.focus();
-			});
 		};
 
 		// initialize!

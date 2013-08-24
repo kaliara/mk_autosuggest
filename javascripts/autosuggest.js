@@ -6,9 +6,9 @@ $.fn.extend({
 
 		// setting some defaults (can be overwritten when calling mkAutosuggest)
 		var defaults = {
+		  url: null,
 			container_id: "autosuggest_what",
 			element_id: "as_what_results",
-			category: "what_category",
 			next_input_element: null,
 			focus_class: "focused",
 			no_results: "No matches found",
@@ -108,7 +108,7 @@ $.fn.extend({
 					else{
 						item_address = "";
 					}
-					$('<li><a data-name="' + item.name + 
+					$('<li><a data-name="' + item.name +  // data-name is required
 						'" data-' + group_label + '="' + item.name + 
 						'" data-position="' + j + 
 						'" href="#' + item.id + '">' + 
@@ -130,25 +130,23 @@ $.fn.extend({
 				$("#" + options.element_id).replaceWith(results_html);
 				showContainer();
 			}
-
-			$("li.no_results").slice(1).remove(); // remove all but first 'no results' instance
-
 		};
 
-		var fetchResults = function(term_what) {
-      var cacheKey = term_what;
+		var fetchResults = function(term) {
+		  var cacheKey = term;
       
-			if ($.trim(term_what).length > 2) {
+			if ($.trim(term).length > 2) {
 				if(cacheKey in cacheApiResult) {
-				    displayResults( cacheApiResult [ cacheKey ]);
+				    displayResults(cacheApiResult [ cacheKey ]);
 				}
 				else {
 					if (current_ajax_req) {
 						current_ajax_req.abort();
 					}
 					current_ajax_req = $.ajax({
-						url: options.api_url,
+						url: options.url,
 						type: "GET",
+						data: { 'term': term },
 						dataType: "json"
 					}).done(function(data) {
 						cacheApiResult[ cacheKey ] = data;
@@ -165,7 +163,7 @@ $.fn.extend({
 		var updateInput = function(term) {
 			_input.val(term.attr('data-name'));
 		};
-
+      
 		var mapKeys = function(e) {
 			e = e || window.event;
 
@@ -213,6 +211,12 @@ $.fn.extend({
 		};
 
 		var init = function() {
+		  // return false if we don't have a url
+		  if (options.url == null) {
+		    console.log("No url specified");
+		    return false;
+		  }
+		  
 			_input.on("keydown keyup keypress", function(e) {
 				mapKeys(e);
 			});
@@ -230,6 +234,14 @@ $.fn.extend({
 				focusItem($(this));
 			});
 
+			// update on item click
+			$("#" + options.container_id).on("click", "a", function(e) {
+				e.preventDefault();
+				updateInput($(this));
+				hideContainer();
+				_input.focus();
+			});
+
 			// hide results and update input if necessary on click
 			$(document).on("click", function() {
 				if (!_input.is(':focus')) {
@@ -237,13 +249,6 @@ $.fn.extend({
 				}
 			});
 
-			// 
-			$("#" + options.container_id).on("click", "a", function(e) {
-				e.preventDefault();
-				updateInput($(this));
-				hideContainer();
-				_input.focus();
-			});
 		};
 
 		// initialize!
